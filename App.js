@@ -1,15 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ScrollView,
-  Animated,
-} from 'react-native';
-import Header from './Components/Header.js';
-import Flip from './Components/Flip.js';
+import { StyleSheet, Text, View, Animated, ScrollView } from 'react-native';
+import Header from './Screens/Header.js';
+import Flip from './Screens/Flip.js';
+import Repair from './Screens/Repair.js';
+import Navigator from './Routes/HomeStack';
 
 export default function App() {
   const scroll = new Animated.Value(0);
@@ -24,15 +19,19 @@ export default function App() {
           transform: [{ translateY: headScroll }],
         }}
       >
-        <Header />
+        {/* <Header /> */}
       </Animated.View>
-      <Flip
-        onScroll={(e) => {
-          scroll.setValue(e.nativeEvent.contentOffset.y);
-        }}
-      />
-      <FlatList />
-      <StatusBar style='auto' />
+      <Navigator />
+      {/* <Flip
+          onScroll={(e) => {
+            scroll.setValue(e.nativeEvent.contentOffset.y);
+          }}
+        />
+        <Repair
+          onScroll={(e) => {
+            scroll.setValue(e.nativeEvent.contentOffset.y);
+          }}
+        /> */}
     </View>
   );
 }
