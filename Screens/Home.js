@@ -14,10 +14,8 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textHead}>
-        {' '}
-        Welcome to ROI ( Return of Investment ) Calculator!{' '}
-      </Text>
+      <Text style={styles.textHead}> Welcome to ROI Calculator! </Text>
+      <Text>( Return of Investment ) </Text>
       <Text style={styles.text}>Select your type of Investment below</Text>
       <View style={styles.buttonContainer}>
         <View style={styles.button}>
