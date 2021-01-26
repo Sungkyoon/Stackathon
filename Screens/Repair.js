@@ -12,7 +12,7 @@ import {
   Touchable,
 } from 'react-native';
 
-export default function Repair({ updateRepair }) {
+export default function Repair({ updateRepair, setModalRepair }) {
   const [living, setLiving] = useState(0);
   const [kitchen, setKitchen] = useState(0);
   const [bedroom, setBedroom] = useState(0);
@@ -37,6 +37,16 @@ export default function Repair({ updateRepair }) {
     >
       <ScrollView>
         <View>
+          <TouchableOpacity>
+            <View style={styles.button1}>
+              <Button
+                title='Back'
+                type='submit'
+                color='white'
+                onPress={() => setModalRepair(false)}
+              />
+            </View>
+          </TouchableOpacity>
           <View style={styles.container}>
             <Text style={styles.textTop}>Renovation</Text>
             <Text style={styles.amount}>(Enter Amount of Rooms)</Text>
@@ -109,7 +119,6 @@ const styles = StyleSheet.create({
   },
   textTop: {
     fontSize: 35,
-    marginTop: 50,
     marginBottom: 5,
     textDecorationLine: 'underline',
   },
@@ -127,5 +136,15 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 200,
     margin: 50,
+  },
+  button1: {
+    backgroundColor: 'red',
+    borderRadius: 100,
+    padding: 10,
+    width: 80,
+    margin: 40,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
   },
 });

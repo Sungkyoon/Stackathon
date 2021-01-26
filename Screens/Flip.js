@@ -71,19 +71,19 @@ export default function Flip({ navigation }) {
         </Modal>
 
         <Modal visible={modalRepairOpen}>
-          <Repair updateRepair={updateRepair} />
+          <Repair updateRepair={updateRepair} setModalRepair={setModalRepair} />
         </Modal>
         <View style={styles.container}>
           <Text style={styles.textTop}>Purchase Price:</Text>
           <TextInput
             style={styles.input}
             type='number'
-            placeholder='Enter Price...'
-            onChangeText={(val) => setPurchase(val)}
-            value={purchase.toLocaleString('en-US', {
+            placeholder={purchase.toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD',
             })}
+            onChangeText={(val) => setPurchase(val)}
+            value={purchase}
             keyboardType='numeric'
           />
           <Text>Price: {purchase}</Text>
@@ -98,12 +98,12 @@ export default function Flip({ navigation }) {
           <TextInput
             style={styles.input}
             type='number'
-            placeholder='Enter Cost...'
-            onChangeText={(val) => setRepair(val)}
-            value={repair.toLocaleString('en-US', {
+            placeholder={repair.toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD',
             })}
+            onChangeText={(val) => setRepair(val)}
+            value={repair}
             keyboardType='numeric'
           />
 
@@ -112,12 +112,12 @@ export default function Flip({ navigation }) {
           <TextInput
             style={styles.input}
             type='number'
-            placeholder='Enter Cost...'
-            onChangeText={(val) => setClosing(val)}
-            value={closing.toLocaleString('en-US', {
+            placeholder={closing.toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD',
             })}
+            onChangeText={(val) => setClosing(val)}
+            value={closing}
             keyboardType='numeric'
           />
 
@@ -126,8 +126,9 @@ export default function Flip({ navigation }) {
           <TextInput
             style={styles.input}
             type='number'
-            placeholder='Enter Costs...'
+            placeholder='$0.00'
             onChangeText={(val) => setUtility(val)}
+            onBlur={}
             value={utility.toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD',
@@ -139,12 +140,12 @@ export default function Flip({ navigation }) {
           <TextInput
             style={styles.input}
             type='number'
-            placeholder='ARV ( After Repair Value ...'
-            onChangeText={(val) => setArv(val)}
-            value={arv.toLocaleString('en-US', {
+            placeholder={arv.toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD',
             })}
+            onChangeText={(val) => setArv(val)}
+            value={arv}
             keyboardType='numeric'
           />
 
