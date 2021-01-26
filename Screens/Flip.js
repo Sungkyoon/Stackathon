@@ -28,21 +28,21 @@ export default function Flip({ navigation }) {
   const [total, setTotal] = useState(0);
 
   const handleSubmit = () => {
-    let one = purchase * 1;
-    let two = repair * 1;
-    let three = closing * 1;
-    let four = utility * 1;
-    let five = arv * 1;
+    let one = +purchase;
+    let two = +repair;
+    let three = +closing;
+    let four = +utility;
+    let five = +arv;
     let values = [one, two, three, four];
-    let total = five - values.reduce((a, b) => a + b, 0);
-    setTotal(
-      total.toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      })
-    );
+    let profitTotal = five - values.reduce((a, b) => a + b, 0);
+    setTotal(profitTotal);
     setModalOpen(true);
+    console.log('THIS IS ONE', purchase);
     console.log('THIS IS TWO', two);
+    console.log('THIS IS THREE', three);
+    console.log('THIS IS FOUR', four);
+    console.log('THIS IS FIVE', five);
+    console.log('THIS IS PROFIT TOTAL', profitTotal);
     navigation.navigate('FlipProfit', total);
   };
   const updateRepair = (finalPrice) => {
@@ -51,7 +51,7 @@ export default function Flip({ navigation }) {
   };
 
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 120 : 0;
-
+  console.log('This is profitTotal ---> ', total);
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -70,7 +70,12 @@ export default function Flip({ navigation }) {
                 style={styles.modalContent}
               >
                 <Text style={styles.modalTextTop}>Your Profit is</Text>
-                <Text style={styles.modalText}>{total}</Text>
+                <Text style={styles.modalText}>
+                  {total.toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                  })}
+                </Text>
                 <View style={styles.button}>
                   <Button
                     title='Go Back'
@@ -98,11 +103,10 @@ export default function Flip({ navigation }) {
                   separator: '.',
                   precision: 2,
                 }}
-                placeholder={purchase.toLocaleString('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                })}
-                onChangeText={(val) => setPurchase(val)}
+                placeholder='Enter Price..'
+                onChangeText={(val) => {
+                  setPurchase(parseInt(val.slice(1).replace(/,/gi, '')));
+                }}
                 value={purchase}
                 keyboardType='numeric'
               />
@@ -127,7 +131,9 @@ export default function Flip({ navigation }) {
                   style: 'currency',
                   currency: 'USD',
                 })}
-                onChangeText={(val) => setRepair(val)}
+                onChangeText={(val) =>
+                  setRepair(parseInt(val.slice(1).replace(/,/gi, '')))
+                }
                 value={repair}
                 keyboardType='numeric'
               />
@@ -147,7 +153,9 @@ export default function Flip({ navigation }) {
                   style: 'currency',
                   currency: 'USD',
                 })}
-                onChangeText={(val) => setClosing(val)}
+                onChangeText={(val) =>
+                  setClosing(parseInt(val.slice(1).replace(/,/gi, '')))
+                }
                 value={closing}
                 keyboardType='numeric'
               />
@@ -186,7 +194,9 @@ export default function Flip({ navigation }) {
                   style: 'currency',
                   currency: 'USD',
                 })}
-                onChangeText={(val) => setArv(val)}
+                onChangeText={(val) =>
+                  setArv(parseInt(val.slice(1).replace(/,/gi, '')))
+                }
                 value={arv}
                 keyboardType='numeric'
               />
