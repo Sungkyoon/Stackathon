@@ -10,7 +10,11 @@ import {
   Keyboard,
   Modal,
   ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 import Repair from './Repair.js';
 
 export default function Flip({ navigation }) {
@@ -46,117 +50,157 @@ export default function Flip({ navigation }) {
     setModalRepair(false);
   };
 
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? 120 : 0;
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}
     >
-      <View style={styles.flip}>
-        <Modal visible={modalOpen}>
-          <ImageBackground
-            source={require('../assets/Modal.png')}
-            style={styles.modalContent}
-          >
-            <Text style={styles.modalTextTop}>Your Profit is</Text>
-            <Text style={styles.modalText}>{total}</Text>
-            <View style={styles.button}>
-              <Button
-                title='Go Back'
-                color='white'
-                onPress={() => setModalOpen(false)}
+      <KeyboardAvoidingView
+        behavior='height'
+        keyboardVerticalOffset={keyboardVerticalOffset}
+      >
+        <ScrollView>
+          <View style={styles.flip}>
+            <Modal visible={modalOpen}>
+              <ImageBackground
+                source={require('../assets/Modal.png')}
+                style={styles.modalContent}
+              >
+                <Text style={styles.modalTextTop}>Your Profit is</Text>
+                <Text style={styles.modalText}>{total}</Text>
+                <View style={styles.button}>
+                  <Button
+                    title='Go Back'
+                    color='white'
+                    onPress={() => setModalOpen(false)}
+                  />
+                </View>
+              </ImageBackground>
+            </Modal>
+
+            <Modal visible={modalRepairOpen}>
+              <Repair
+                updateRepair={updateRepair}
+                setModalRepair={setModalRepair}
               />
+            </Modal>
+            <View style={styles.container}>
+              <Text style={styles.textTop}>Purchase Price:</Text>
+              <TextInputMask
+                style={styles.input}
+                type={'money'}
+                options={{
+                  unit: '$',
+                  delimiter: ',',
+                  separator: '.',
+                  precision: 2,
+                }}
+                placeholder={purchase.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })}
+                onChangeText={(val) => setPurchase(val)}
+                value={purchase}
+                keyboardType='numeric'
+              />
+
+              <Text style={styles.text}> Repair Cost:</Text>
+              <TouchableOpacity onPress={() => setModalRepair(true)}>
+                <Text style={styles.textLink}>
+                  {' '}
+                  Don't know repair cost? Calculate here!
+                </Text>
+              </TouchableOpacity>
+              <TextInputMask
+                style={styles.input}
+                type={'money'}
+                options={{
+                  unit: '$',
+                  delimiter: ',',
+                  separator: '.',
+                  precision: 2,
+                }}
+                placeholder={repair.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })}
+                onChangeText={(val) => setRepair(val)}
+                value={repair}
+                keyboardType='numeric'
+              />
+
+              <Text style={styles.text}> Closing Cost:</Text>
+              <Text>(Agent/Attorney Fee, Title Insurance, Taxes)</Text>
+              <TextInputMask
+                style={styles.input}
+                type={'money'}
+                options={{
+                  unit: '$',
+                  delimiter: ',',
+                  separator: '.',
+                  precision: 2,
+                }}
+                placeholder={closing.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })}
+                onChangeText={(val) => setClosing(val)}
+                value={closing}
+                keyboardType='numeric'
+              />
+
+              <Text style={styles.text}> Monthly Expenses:</Text>
+              <Text>Average cost calculated for you (For 6 months)</Text>
+              <TextInputMask
+                style={styles.input}
+                type={'money'}
+                options={{
+                  unit: '$',
+                  delimiter: ',',
+                  separator: '.',
+                  precision: 2,
+                }}
+                placeholder='$0.00'
+                onChangeText={(val) => setUtility(val)}
+                value={utility.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })}
+                keyboardType='numeric'
+              />
+
+              <Text style={styles.text}> ARV(After Repair Value):</Text>
+              <TextInputMask
+                style={styles.input}
+                type={'money'}
+                options={{
+                  unit: '$',
+                  delimiter: ',',
+                  separator: '.',
+                  precision: 2,
+                }}
+                placeholder={arv.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })}
+                onChangeText={(val) => setArv(val)}
+                value={arv}
+                keyboardType='numeric'
+              />
+
+              {/* <TouchableOpacity onPress={() => navigation.navigate('FlipProfit')}> */}
+              <TouchableOpacity>
+                <View style={styles.button}>
+                  <Button title='submit' color='white' onPress={handleSubmit} />
+                </View>
+              </TouchableOpacity>
             </View>
-          </ImageBackground>
-        </Modal>
-
-        <Modal visible={modalRepairOpen}>
-          <Repair updateRepair={updateRepair} setModalRepair={setModalRepair} />
-        </Modal>
-        <View style={styles.container}>
-          <Text style={styles.textTop}>Purchase Price:</Text>
-          <TextInput
-            style={styles.input}
-            type='number'
-            placeholder={purchase.toLocaleString('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            })}
-            onChangeText={(val) => setPurchase(val)}
-            value={purchase}
-            keyboardType='numeric'
-          />
-          <Text>Price: {purchase}</Text>
-
-          <Text style={styles.text}> Repair Cost:</Text>
-          <TouchableOpacity onPress={() => setModalRepair(true)}>
-            <Text style={styles.textLink}>
-              {' '}
-              Don't know repair cost? Calculate here!
-            </Text>
-          </TouchableOpacity>
-          <TextInput
-            style={styles.input}
-            type='number'
-            placeholder={repair.toLocaleString('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            })}
-            onChangeText={(val) => setRepair(val)}
-            value={repair}
-            keyboardType='numeric'
-          />
-
-          <Text style={styles.text}> Closing Cost:</Text>
-          <Text>(Agent/Attorney Fee, Title Insurance, Taxes)</Text>
-          <TextInput
-            style={styles.input}
-            type='number'
-            placeholder={closing.toLocaleString('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            })}
-            onChangeText={(val) => setClosing(val)}
-            value={closing}
-            keyboardType='numeric'
-          />
-
-          <Text style={styles.text}> Monthly Expenses:</Text>
-          <Text>Average cost calculated for you (For 6 months)</Text>
-          <TextInput
-            style={styles.input}
-            type='number'
-            placeholder='$0.00'
-            onChangeText={(val) => setUtility(val)}
-            onBlur={}
-            value={utility.toLocaleString('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            })}
-            keyboardType='numeric'
-          />
-
-          <Text style={styles.text}> ARV(After Repair Value):</Text>
-          <TextInput
-            style={styles.input}
-            type='number'
-            placeholder={arv.toLocaleString('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            })}
-            onChangeText={(val) => setArv(val)}
-            value={arv}
-            keyboardType='numeric'
-          />
-
-          {/* <TouchableOpacity onPress={() => navigation.navigate('FlipProfit')}> */}
-          <TouchableOpacity>
-            <View style={styles.button}>
-              <Button title='submit' color='white' onPress={handleSubmit} />
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }

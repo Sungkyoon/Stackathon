@@ -36,7 +36,7 @@ export default function Repair({ updateRepair, setModalRepair }) {
       }}
     >
       <ScrollView>
-        <View>
+        <View style={styles.button1Container}>
           <TouchableOpacity>
             <View style={styles.button1}>
               <Button
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     padding: 10,
     width: 80,
-    margin: 40,
+    margin: 50,
   },
   buttonContainer: {
     flexDirection: 'row',
