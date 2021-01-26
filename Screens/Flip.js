@@ -26,18 +26,27 @@ export default function Flip({ navigation }) {
   const [utility, setUtility] = useState(3170);
   const [arv, setArv] = useState(0);
   const [total, setTotal] = useState(0);
+  console.log(purchase);
+  console.log(repair);
+  console.log(closing);
+  console.log(utility);
+  console.log(purchase);
+  console.log(arv);
 
   const handleSubmit = () => {
-    let one = +purchase;
-    let two = +repair;
-    let three = +closing;
-    let four = +utility;
-    let five = +arv;
+    let one = parseInt(purchase.slice(1).replace(/,/gi, '')) * 1;
+    let two = parseInt(repair.slice(1).replace(/,/gi, '')) * 1;
+    let three = parseInt(closing.slice(1).replace(/,/gi, '')) * 1;
+    let four =
+      utility === 3170
+        ? utility * 1
+        : parseInt(utility.slice(1).replace(/,/gi, '')) * 1;
+    let five = parseInt(arv.slice(1).replace(/,/gi, '')) * 1;
     let values = [one, two, three, four];
     let profitTotal = five - values.reduce((a, b) => a + b, 0);
     setTotal(profitTotal);
     setModalOpen(true);
-    console.log('THIS IS ONE', purchase);
+    console.log('THIS IS ONE', one);
     console.log('THIS IS TWO', two);
     console.log('THIS IS THREE', three);
     console.log('THIS IS FOUR', four);
@@ -46,7 +55,12 @@ export default function Flip({ navigation }) {
     navigation.navigate('FlipProfit', total);
   };
   const updateRepair = (finalPrice) => {
-    setRepair(finalPrice);
+    setRepair(
+      finalPrice.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      })
+    );
     setModalRepair(false);
   };
 
@@ -103,9 +117,12 @@ export default function Flip({ navigation }) {
                   separator: '.',
                   precision: 2,
                 }}
-                placeholder='Enter Price..'
+                placeholder={purchase.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })}
                 onChangeText={(val) => {
-                  setPurchase(parseInt(val.slice(1).replace(/,/gi, '')));
+                  setPurchase(val);
                 }}
                 value={purchase}
                 keyboardType='numeric'
@@ -131,9 +148,7 @@ export default function Flip({ navigation }) {
                   style: 'currency',
                   currency: 'USD',
                 })}
-                onChangeText={(val) =>
-                  setRepair(parseInt(val.slice(1).replace(/,/gi, '')))
-                }
+                onChangeText={(val) => setRepair(val)}
                 value={repair}
                 keyboardType='numeric'
               />
@@ -153,9 +168,7 @@ export default function Flip({ navigation }) {
                   style: 'currency',
                   currency: 'USD',
                 })}
-                onChangeText={(val) =>
-                  setClosing(parseInt(val.slice(1).replace(/,/gi, '')))
-                }
+                onChangeText={(val) => setClosing(val)}
                 value={closing}
                 keyboardType='numeric'
               />
@@ -194,9 +207,7 @@ export default function Flip({ navigation }) {
                   style: 'currency',
                   currency: 'USD',
                 })}
-                onChangeText={(val) =>
-                  setArv(parseInt(val.slice(1).replace(/,/gi, '')))
-                }
+                onChangeText={(val) => setArv(val)}
                 value={arv}
                 keyboardType='numeric'
               />

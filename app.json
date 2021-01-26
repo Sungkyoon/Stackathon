@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Stackathon",
+    "name": "ROI Calculator",
     "slug": "Stackathon",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon2.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -27,6 +27,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "Simple ROI calculator for House Flipping ( Rental will be up and running soon ) Only works for IOS for now"
   }
 }
